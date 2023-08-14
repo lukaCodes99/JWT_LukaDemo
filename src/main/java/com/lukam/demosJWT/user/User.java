@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -35,6 +36,7 @@ public class User implements UserDetails{ //to use this Class with spring securi
     private Integer id;
     private String firstName;
     private String lastName;
+    @Column(unique = true, nullable = false)
     private String email;
     private String password;
 
