@@ -1,6 +1,7 @@
 package com.lukam.demosJWT.config;
 
 
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,7 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.lukam.demosJWT.user.UserRepository;
+import com.lukam.demosJWT.repo.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,14 +21,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-    private final UserRepository repository;
+
     
+    private final UserRepository repository;
+
     @Bean
-    public UserDetailsService userDetailsService(){  //finding user in our repository (DB)
-        return username -> repository.findByEmail(username)
-            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    public UserDetailsService userDetailsService() {
+      return username -> repository.findByEmail(username)
+          .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
+   
     @Bean
     public AuthenticationProvider authConfigProvider(){
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -36,14 +40,19 @@ public class ApplicationConfig {
         return authProvider;
     }
 
+    
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception{
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-
+    
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+
+
+    
 
 }

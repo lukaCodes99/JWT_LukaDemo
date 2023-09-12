@@ -12,9 +12,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.lukam.demosJWT.repo.user.UserRepository;
 import com.lukam.demosJWT.user.Group;
 import com.lukam.demosJWT.user.User;
-import com.lukam.demosJWT.user.UserRepository;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -31,13 +31,12 @@ public class JwtService {
     private String secretKey;
     @Value("${application.security.jwt.expiration}")
     private long jwtExpiration;
-    @Value("${application.security.jwt.refresh-token.expiration}")
-    private long refreshExpiration;
+    // @Value("${application.security.jwt.refresh-token.expiration}")
+    // private long refreshExpiration;
 
 
     private final UserRepository userRepository; //to be able to retreive groupps
 
-    
 
     public JwtService(UserRepository userRepository) {
         this.userRepository = userRepository;

@@ -30,4 +30,14 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.authenticate(request));
     }
 
+    /*
+    private final PortalUserService portalUserService;
+  
+    @PostMapping
+    public ResponseEntity<AuthResponse> authenticate(@RequestBody @NonNull AuthRequest authRequest) {
+            log.info("Authentication request for user {} received!", authRequest.getUsername());
+            return ResponseEntity.ok(portalUserService.authenticateUser(authRequest.getUsername(), authRequest.getPassword()));---ovako nekako želim
+    }
+    */
+
 }

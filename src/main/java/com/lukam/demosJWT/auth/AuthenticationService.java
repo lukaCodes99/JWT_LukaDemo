@@ -4,12 +4,14 @@ import java.util.HashSet;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.lukam.demosJWT.config.JwtService;
+import com.lukam.demosJWT.repo.user.UserRepository;
 import com.lukam.demosJWT.user.User;
-import com.lukam.demosJWT.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +23,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final UserDetailsService customUserDetailsService;
     
     
     public AuthenticationResponse register(RegisterRequest request) {
@@ -43,18 +46,22 @@ public class AuthenticationService {
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         
-        authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
-        );//throws exception
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
-        var user = repository.findByEmail(request.getEmail())
-            .orElseThrow(null);
+        System.out.println(request.getEmail());
+
+        UserDetails user=customUserDetailsService.loadUserByUsername(request.getEmail());
+
+        System.out.println(user);
         
         var jwtToken = jwtService.generateToken(user);
+
         return AuthenticationResponse.builder()
             .token(jwtToken)
             .build();
 
     }
+
+    
     
 }

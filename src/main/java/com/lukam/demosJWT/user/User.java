@@ -33,11 +33,19 @@ public class User implements UserDetails{ //to use this Class with spring securi
     
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id")
     private Integer id;
+
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
-    @Column(unique = true, nullable = false)
+
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
+
+    @Column(name = "password")
     private String password;
 
     @ElementCollection(fetch = FetchType.EAGER)
